@@ -1,5 +1,5 @@
 "use client";
-
+import confetti from "canvas-confetti";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -257,7 +257,7 @@ function CartPanel({
           ))}
         </div>
 
-        <motion.button whileTap={{ scale: 0.97 }} disabled={!cart.length} onClick={placeOrder} className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 py-4 font-black text-white shadow-xl shadow-green-200 transition disabled:from-zinc-300 disabled:to-zinc-300 disabled:shadow-none">
+        <motion.button whileTap={{ scale: 0.97 }} disabled={!cart.length} onClick={placeOrder} className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r btn-wa py-4 font-black text-white shadow-xl shadow-green-200 transition disabled:from-zinc-300 disabled:to-zinc-300 disabled:shadow-none">
           <MessageCircle size={19} />
           Order via WhatsApp
         </motion.button>
@@ -348,7 +348,12 @@ export default function Store() {
     const message = `🔔 *New Order - ${BUSINESS_NAME}*\n\n🧾 Order ID: *${orderId}*\n👤 Name: ${newOrder.customerName}\n📞 Phone: ${newOrder.phone}\n📍 Address: ${newOrder.address}\n\n🛒 *Items*\n${itemsText}\n\n💰 *Total:* ${formatINR(newOrder.total)}\n💳 Payment: ${newOrder.payment}\n\nPlease confirm this order.`;
 
     window.open(`https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(message)}`, "_blank");
-
+    confetti({
+  particleCount: 140,
+  spread: 90,
+  origin: { y: 0.7 },
+  colors: ["#ff6b1a", "#ff2d55", "#ffb300", "#22c55e"],
+});
     setTrackPhone(form.phone);
     setCart([]);
     setShowCart(false);
@@ -377,7 +382,7 @@ export default function Store() {
           <button onClick={() => setView("shop")} className="flex items-center gap-2">
             <motion.div whileHover={{ rotate: 8, scale: 1.05 }} className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 text-xl shadow-lg shadow-orange-200">🥘</motion.div>
             <div className="text-left">
-              <h1 className="text-xl font-black tracking-tight text-orange-600">{BUSINESS_NAME}</h1>
+              <h1 className="text-2xl font-black tracking-tight grad-text">{BUSINESS_NAME}</h1>
               <p className="text-xs font-medium text-zinc-400">WhatsApp ordering</p>
             </div>
           </button>
@@ -439,7 +444,7 @@ export default function Store() {
                 <motion.div layout className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                   <AnimatePresence mode="popLayout">
                     {filteredProducts.map((product, index) => (
-                      <motion.article layout key={product.id} initial={{ opacity: 0, y: 24, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 20, scale: 0.96 }} transition={{ delay: index * 0.03 }} whileHover={{ y: -8 }} className="group relative overflow-hidden rounded-[1.7rem] border border-orange-100 bg-white/90 p-4 shadow-lg shadow-orange-100/50 backdrop-blur-xl">
+                      <motion.article layout key={product.id} initial={{ opacity: 0, y: 24, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 20, scale: 0.96 }} transition={{ delay: index * 0.03 }} whileHover={{ y: -8 }} className="tilt shine group relative overflow-hidden rounded-[1.7rem] border border-white/70 glassp-4 shadow-lg shadow-orange-100/50 backdrop-blur-xl">
                         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-orange-500 to-red-500 opacity-0 transition group-hover:opacity-100" />
                         <div className="mb-4 flex items-start justify-between">
                           <motion.div whileHover={{ rotate: 8, scale: 1.08 }} className="flex h-20 w-20 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-orange-50 to-amber-50 text-5xl shadow-inner">{product.image}</motion.div>
@@ -455,7 +460,7 @@ export default function Store() {
                             <div className="flex items-center gap-1"><Star size={14} className="fill-amber-400 text-amber-400" /><span className="font-bold">{product.rating}</span></div>
                             <div className="flex items-center gap-1"><Clock size={14} /><span>{product.prep}</span></div>
                           </div>
-                          <motion.button whileTap={{ scale: 0.96 }} onClick={() => addToCart(product)} className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-zinc-900 py-3 font-black text-white shadow-lg shadow-zinc-200 transition hover:bg-orange-600">Add to Cart<Plus size={17} /></motion.button>
+                          <motion.button whileTap={{ scale: 0.96 }} onClick={() => addToCart(product)} className="btn-glow mt-4 flex w-full items-center justify-center gap-2 py-3 font-black text-white shadow-lg shadow-zinc-200 transition hover:bg-orange-600">Add to Cart<Plus size={17} /></motion.button>
                         </div>
                       </motion.article>
                     ))}
